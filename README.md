@@ -5,7 +5,7 @@ also simulating some complex architecture/errors that I've crossed.
 
 # Scenarios
 
-## Controllers divide by profile and folder
+## Controllers divide by profile or packages
 
 **Check sales-products module for this scenario.**
 
