@@ -23,7 +23,7 @@ import static com.vagai.salesproducts.entity.enumerated.UnitOfMeasure.METERS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@ActiveProfiles("internal")
+@ActiveProfiles("local")
 @DirtiesContext
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMessageVerifier

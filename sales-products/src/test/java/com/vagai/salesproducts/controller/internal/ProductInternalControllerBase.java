@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 // A little bit simpler the conf
-@ActiveProfiles("internal")
+@ActiveProfiles("local")
 @SpringBootTest(classes = ProductInternalController.class)
 public class ProductInternalControllerBase {
 

@@ -38,94 +38,97 @@
                 <artifactId>spring-cloud-contract-maven-plugin</artifactId>
                 <version>${spring-cloud-contract-maven-plugin.version}</version>
                 <extensions>true</extensions>
-                <executions>
-                    <execution>
-                        <id>internal</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>convert</goal>
-                            <goal>generateStubs</goal>
-                            <goal>generateTests</goal>
-                        </goals>
-                        <configuration>
-                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>internal</id>-->
+<!--                        <phase>generate-test-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>convert</goal>-->
+<!--                            <goal>generateStubs</goal>-->
+<!--                            <goal>generateTests</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>-->
 
-                            <contractsMode>REMOTE</contractsMode>
-                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git
-                            </contractsRepositoryUrl>
+<!--                            <contractsMode>REMOTE</contractsMode>-->
+<!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+<!--                            </contractsRepositoryUrl>-->
 
-                            <contractDependency>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>${project.artifactId}</artifactId>
-                                <version>internal-v1</version>
-                            </contractDependency>
+<!--                            <contractDependency>-->
+<!--                                <groupId>${project.groupId}</groupId>-->
+<!--                                <artifactId>${project.artifactId}</artifactId>-->
+<!--                                <version>internal-v1</version>-->
+<!--                            </contractDependency>-->
 
-                            <contractsProperties>
-                                <git.branch>main</git.branch>
-                            </contractsProperties>
-                            <contractsPath>${file.separator}</contractsPath>
+<!--                            <contractsProperties>-->
+<!--                                <git.branch>main</git.branch>-->
+<!--                            </contractsProperties>-->
+<!--                            <contractsPath>${file.separator}</contractsPath>-->
 
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>external</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>convert</goal>
-                            <goal>generateStubs</goal>
-                            <goal>generateTests</goal>
-                        </goals>
-                        <configuration>
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>external</id>-->
+<!--                        <phase>generate-test-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>convert</goal>-->
+<!--                            <goal>generateStubs</goal>-->
+<!--                            <goal>generateTests</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
 
-                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>
+<!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>-->
 
-                            <contractsMode>REMOTE</contractsMode>
-                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git
-                            </contractsRepositoryUrl>
+<!--                            <contractsMode>REMOTE</contractsMode>-->
+<!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+<!--                            </contractsRepositoryUrl>-->
 
-                            <contractDependency>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>${project.artifactId}</artifactId>
-                                <version>external-v1</version>
-                            </contractDependency>
+<!--                            <contractDependency>-->
+<!--                                <groupId>${project.groupId}</groupId>-->
+<!--                                <artifactId>${project.artifactId}</artifactId>-->
+<!--                                <version>external-v1</version>-->
+<!--                            </contractDependency>-->
 
-                            <contractsProperties>
-                                <git.branch>main</git.branch>
-                            </contractsProperties>
-                            <contractsPath>${file.separator}</contractsPath>
+<!--                            <contractsProperties>-->
+<!--                                <git.branch>main</git.branch>-->
+<!--                            </contractsProperties>-->
+<!--                            <contractsPath>${file.separator}</contractsPath>-->
 
-                        </configuration>
-                    </execution>
+<!--                        </configuration>-->
+<!--                    </execution>-->
 
-                </executions>
+<!--                </executions>-->
                 <configuration>
 
                     <!-- ERROR 1 - If we set to convert to yaml, on version >= 3.0.3  it'll thrown an NullPointerException, on 3.0.2 is working fine -->
                     <!--                    <convertToYaml>true</convertToYaml>-->
 
                     <failOnNoContracts>false</failOnNoContracts>
+
+                    <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
+
+                    <contractsMode>REMOTE</contractsMode>
+                    <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git</contractsRepositoryUrl>
+
+                    <baseClassMappings>
+                        <baseClassMapping>
+                            <contractPackageRegex>ProductExternalController</contractPackageRegex>
+                            <baseClassFQN>com.vagai.salesproducts.controller.external.ProductExternalControllerBase</baseClassFQN>
+                        </baseClassMapping>
+                    </baseClassMappings>
+
+                    <contractDependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>${project.artifactId}</artifactId>
+                        <version>v1</version>
+                    </contractDependency>
+
+                    <contractsProperties>
+                        <git.branch>main</git.branch>
+                    </contractsProperties>
+                    <contractsPath>${file.separator}</contractsPath>
+
                 </configuration>
-                <!--
-                                <configuration>
-
-                                    <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
-
-                                    <contractsMode>REMOTE</contractsMode>
-                                    <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git</contractsRepositoryUrl>
-
-                                    <contractDependency>
-                                        <groupId>${project.groupId}</groupId>
-                                        <artifactId>${project.artifactId}</artifactId>
-                                        <version>internal-v1</version>
-                                    </contractDependency>
-
-                                    <contractsProperties>
-                                        <git.branch>main</git.branch>
-                                    </contractsProperties>
-                                    <contractsPath>${file.separator}</contractsPath>
-
-                                </configuration>
-                -->
             </plugin>
         </plugins>
     </build>

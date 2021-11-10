@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.vagai.salesproducts.controller.ProductDefinition.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@Profile("internal")
+@Profile("local")
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = STOCK_ENDPOINT, produces = APPLICATION_JSON_VALUE)
