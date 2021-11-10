@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.vagai</groupId>
+        <artifactId>scc-examples</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>sales-products</artifactId>
+    <name>Sales products module</name>
+
+    <description>Microservice to simulate products app APIs</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>${spring-cloud-contract-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>internal</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>convert</goal>
+                            <goal>generateStubs</goal>
+                            <goal>generateTests</goal>
+                        </goals>
+                        <configuration>
+                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
+
+                            <contractsMode>REMOTE</contractsMode>
+                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git
+                            </contractsRepositoryUrl>
+
+                            <contractDependency>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>internal-v1</version>
+                            </contractDependency>
+
+                            <contractsProperties>
+                                <git.branch>main</git.branch>
+                            </contractsProperties>
+                            <contractsPath>${file.separator}</contractsPath>
+
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>external</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>convert</goal>
+                            <goal>generateStubs</goal>
+                            <goal>generateTests</goal>
+                        </goals>
+                        <configuration>
+
+                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>
+
+                            <contractsMode>REMOTE</contractsMode>
+                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git
+                            </contractsRepositoryUrl>
+
+                            <contractDependency>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>external-v1</version>
+                            </contractDependency>
+
+                            <contractsProperties>
+                                <git.branch>main</git.branch>
+                            </contractsProperties>
+                            <contractsPath>${file.separator}</contractsPath>
+
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <configuration>
+
+                    <!-- ERROR 1 - If we set to convert to yaml, on version >= 3.0.3  it'll thrown an NullPointerException, on 3.0.2 is working fine -->
+                    <!--                    <convertToYaml>true</convertToYaml>-->
+
+                    <failOnNoContracts>false</failOnNoContracts>
+                </configuration>
+                <!--
+                                <configuration>
+
+                                    <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
+
+                                    <contractsMode>REMOTE</contractsMode>
+                                    <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git</contractsRepositoryUrl>
+
+                                    <contractDependency>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>${project.artifactId}</artifactId>
+                                        <version>internal-v1</version>
+                                    </contractDependency>
+
+                                    <contractsProperties>
+                                        <git.branch>main</git.branch>
+                                    </contractsProperties>
+                                    <contractsPath>${file.separator}</contractsPath>
+
+                                </configuration>
+                -->
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
