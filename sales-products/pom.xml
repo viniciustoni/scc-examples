@@ -33,87 +33,29 @@
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Spring cloud contracts, conf 1, using baseClassMappings -->
             <plugin>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-contract-maven-plugin</artifactId>
                 <version>${spring-cloud-contract-maven-plugin.version}</version>
                 <extensions>true</extensions>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>internal</id>-->
-<!--                        <phase>generate-test-sources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>convert</goal>-->
-<!--                            <goal>generateStubs</goal>-->
-<!--                            <goal>generateTests</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>-->
-
-<!--                            <contractsMode>REMOTE</contractsMode>-->
-<!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
-<!--                            </contractsRepositoryUrl>-->
-
-<!--                            <contractDependency>-->
-<!--                                <groupId>${project.groupId}</groupId>-->
-<!--                                <artifactId>${project.artifactId}</artifactId>-->
-<!--                                <version>internal-v1</version>-->
-<!--                            </contractDependency>-->
-
-<!--                            <contractsProperties>-->
-<!--                                <git.branch>main</git.branch>-->
-<!--                            </contractsProperties>-->
-<!--                            <contractsPath>${file.separator}</contractsPath>-->
-
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>external</id>-->
-<!--                        <phase>generate-test-sources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>convert</goal>-->
-<!--                            <goal>generateStubs</goal>-->
-<!--                            <goal>generateTests</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-
-<!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>-->
-
-<!--                            <contractsMode>REMOTE</contractsMode>-->
-<!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
-<!--                            </contractsRepositoryUrl>-->
-
-<!--                            <contractDependency>-->
-<!--                                <groupId>${project.groupId}</groupId>-->
-<!--                                <artifactId>${project.artifactId}</artifactId>-->
-<!--                                <version>external-v1</version>-->
-<!--                            </contractDependency>-->
-
-<!--                            <contractsProperties>-->
-<!--                                <git.branch>main</git.branch>-->
-<!--                            </contractsProperties>-->
-<!--                            <contractsPath>${file.separator}</contractsPath>-->
-
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                </executions>-->
                 <configuration>
 
                     <!-- ERROR 1 - If we set to convert to yaml, on version >= 3.0.3  it'll thrown an NullPointerException, on 3.0.2 is working fine -->
                     <!--                    <convertToYaml>true</convertToYaml>-->
 
-                    <failOnNoContracts>false</failOnNoContracts>
-
                     <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>
 
                     <contractsMode>REMOTE</contractsMode>
-                    <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git</contractsRepositoryUrl>
+                    <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git
+                    </contractsRepositoryUrl>
 
                     <baseClassMappings>
                         <baseClassMapping>
                             <contractPackageRegex>ProductExternalController</contractPackageRegex>
-                            <baseClassFQN>com.vagai.salesproducts.controller.external.ProductExternalControllerBase</baseClassFQN>
+                            <baseClassFQN>com.vagai.salesproducts.controller.external.ProductExternalControllerBase
+                            </baseClassFQN>
                         </baseClassMapping>
                     </baseClassMappings>
 
@@ -130,6 +72,151 @@
 
                 </configuration>
             </plugin>
+
+            <!-- Spring cloud contracts, conf 2, using Executions and stub grouped by version -->
+            <!-- Problem is: it's downloading the contracts only once, using the first "version" that plugin pick-up  -->
+            <!--            <plugin>-->
+            <!--                <groupId>org.springframework.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
+            <!--                <version>${spring-cloud-contract-maven-plugin.version}</version>-->
+            <!--                <extensions>true</extensions>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>internal</id>-->
+            <!--                        <phase>generate-test-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>convert</goal>-->
+            <!--                            <goal>generateStubs</goal>-->
+            <!--                            <goal>generateTests</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>-->
+
+            <!--                            <contractsMode>REMOTE</contractsMode>-->
+            <!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+            <!--                            </contractsRepositoryUrl>-->
+
+            <!--                            <contractDependency>-->
+            <!--                                <groupId>${project.groupId}</groupId>-->
+            <!--                                <artifactId>${project.artifactId}</artifactId>-->
+            <!--                                <version>internal-v1</version>-->
+            <!--                            </contractDependency>-->
+
+            <!--                            <contractsProperties>-->
+            <!--                                <git.branch>main</git.branch>-->
+            <!--                            </contractsProperties>-->
+            <!--                            <contractsPath>${file.separator}</contractsPath>-->
+
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                    <execution>-->
+            <!--                        <id>external</id>-->
+            <!--                        <phase>generate-test-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>convert</goal>-->
+            <!--                            <goal>generateStubs</goal>-->
+            <!--                            <goal>generateTests</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+
+            <!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>-->
+
+            <!--                            <contractsMode>REMOTE</contractsMode>-->
+            <!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+            <!--                            </contractsRepositoryUrl>-->
+
+            <!--                            <contractDependency>-->
+            <!--                                <groupId>${project.groupId}</groupId>-->
+            <!--                                <artifactId>${project.artifactId}</artifactId>-->
+            <!--                                <version>external-v1</version>-->
+            <!--                            </contractDependency>-->
+
+            <!--                            <contractsProperties>-->
+            <!--                                <git.branch>main</git.branch>-->
+            <!--                            </contractsProperties>-->
+            <!--                            <contractsPath>${file.separator}</contractsPath>-->
+
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <failOnNoContracts>false</failOnNoContracts>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+
+
+            <!-- Spring cloud contracts, conf 3, using Executions and stub grouped by artifact -->
+            <!-- Problem is: it's downloading the contracts only once, using the first "artifact" that plugin pick-up  -->
+            <!--            <plugin>-->
+            <!--                <groupId>org.springframework.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-contract-maven-plugin</artifactId>-->
+            <!--                <version>${spring-cloud-contract-maven-plugin.version}</version>-->
+            <!--                <extensions>true</extensions>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>internal</id>-->
+            <!--                        <phase>generate-test-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>convert</goal>-->
+            <!--                            <goal>generateStubs</goal>-->
+            <!--                            <goal>generateTests</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.internal</packageWithBaseClasses>-->
+
+            <!--                            <contractsMode>REMOTE</contractsMode>-->
+            <!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+            <!--                            </contractsRepositoryUrl>-->
+
+            <!--                            <contractDependency>-->
+            <!--                                <groupId>${project.groupId}</groupId>-->
+            <!--                                <artifactId>${project.artifactId}-internal</artifactId>-->
+            <!--                                <version>v1</version>-->
+            <!--                            </contractDependency>-->
+
+            <!--                            <contractsProperties>-->
+            <!--                                <git.branch>main</git.branch>-->
+            <!--                            </contractsProperties>-->
+            <!--                            <contractsPath>${file.separator}</contractsPath>-->
+
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                    <execution>-->
+            <!--                        <id>external</id>-->
+            <!--                        <phase>generate-test-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>convert</goal>-->
+            <!--                            <goal>generateStubs</goal>-->
+            <!--                            <goal>generateTests</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+
+            <!--                            <packageWithBaseClasses>com.vagai.salesproducts.controller.external</packageWithBaseClasses>-->
+
+            <!--                            <contractsMode>REMOTE</contractsMode>-->
+            <!--                            <contractsRepositoryUrl>git://https://github.com/viniciustoni/scc-contracts-files.git-->
+            <!--                            </contractsRepositoryUrl>-->
+
+            <!--                            <contractDependency>-->
+            <!--                                <groupId>${project.groupId}</groupId>-->
+            <!--                                <artifactId>${project.artifactId}-external</artifactId>-->
+            <!--                                <version>v1</version>-->
+            <!--                            </contractDependency>-->
+
+            <!--                            <contractsProperties>-->
+            <!--                                <git.branch>main</git.branch>-->
+            <!--                            </contractsProperties>-->
+            <!--                            <contractsPath>${file.separator}</contractsPath>-->
+
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <failOnNoContracts>false</failOnNoContracts>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 
